@@ -74,6 +74,8 @@ const GenAIEngine = {
                     response = "The nearest restroom is located at Concourse B, approximately a 2-minute walk from your current predicted location. Would you like me to highlight it on the map?";
                 } else if (lowerQuery.includes("food") || lowerQuery.includes("comida") || lowerQuery.includes("burger")) {
                     response = "There are several options nearby! 'Goal Post Grill' has a wait time of 5 mins, while 'Global Flavors' has a wait time of 15 mins. What kind of cuisine do you prefer?";
+                } else if (lowerQuery.includes("transit") || lowerQuery.includes("train") || lowerQuery.includes("bus")) {
+                    response = "Current Transit Status: The Blue Line Metro is running every 5 minutes. Express buses to Downtown are departing from Gate C without delay. Estimated travel time is 25 minutes.";
                 } else if (lowerQuery.includes("navigate") || lowerQuery.includes("seat") || lowerQuery.includes("sector") || lowerQuery.includes("asiento")) {
                     response = "To get to Sector 105, proceed straight down this hallway and take the first escalator on the left up to Level 2. Follow the blue signs.";
                 } else if (lowerQuery.includes("hi") || lowerQuery.includes("hello") || lowerQuery.includes("hola")) {

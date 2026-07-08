@@ -704,3 +704,11 @@ body.large-text h1 { font-size: 1.8rem; }
 body.large-text h2 { font-size: 1.4rem; }
 body.large-text h3 { font-size: 1.2rem; }
 body.large-text p, body.large-text span, body.large-text div { font-size: 1.1rem !important; }
+
+/* Keyboard Accessibility - Focus States */
+*:focus-visible {
+    outline: 3px solid var(--accent-cyan) !important;
+    outline-offset: 2px !important;
+    box-shadow: 0 0 10px rgba(0, 242, 254, 0.5) !important;
+    border-radius: 4px;
+}
