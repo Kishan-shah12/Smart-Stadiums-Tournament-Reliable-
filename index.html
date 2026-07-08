@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIFA | World Cup 2026</title>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:;">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="app-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo-area">
+                <div class="logo-icon">IQ</div>
+                <div class="logo-text">
+                    <h1 data-i18n="appTitle">FIFA</h1>
+                    <span data-i18n="appSubtitle">WORLD CUP 2026</span>
+                </div>
+            </div>
+
+            <div class="mode-switch">
+                <button class="mode-btn" id="btn-fan">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                    <span data-i18n="navFan">Fan Companion</span>
+                </button>
+                <button class="mode-btn active" id="btn-staff">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+                    <span data-i18n="navOps">Stadium Ops</span>
+                </button>
+            </div>
+
+            <nav class="side-nav" id="ops-nav">
+                <a href="#ops-console" class="nav-item active">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                    <span data-i18n="navIncidents">Incidents (AI Support)</span>
+                </a>
+                <a href="#density-overlay" class="nav-item">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                    <span data-i18n="navHeatmap">Crowd Heatmap</span>
+                </a>
+                <a href="#staff-tracker" class="nav-item">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                    <span data-i18n="navDispatch">Staff Dispatch</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <div class="bottom-controls">
+                    <select id="lang-select" class="lang-select" aria-label="Language Selector">
+                        <option value="en">🇺🇸 English (EN)</option>
+                        <option value="es">🇪🇸 Español (ES)</option>
+                        <option value="fr">🇫🇷 Français (FR)</option>
+                        <option value="de">🇩🇪 Deutsch (DE)</option>
+                    </select>
+                    
+                    <div class="a11y-menu-container">
+                        <button id="btn-a11y" class="a11y-btn" aria-label="Accessibility Options" aria-haspopup="true" aria-expanded="false">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                        </button>
+                        <div id="a11y-dropdown" class="a11y-dropdown hidden" role="menu">
+                            <button id="toggle-contrast" role="menuitem" aria-pressed="false">High Contrast</button>
+                            <button id="toggle-textsize" role="menuitem" aria-pressed="false">Large Text</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="command-center-status">
+                    <div class="status-indicator active"></div>
+                    <div class="status-text">
+                        <strong data-i18n="commandCenter">COMMAND CENTER</strong>
+                        <span data-i18n="activeChannel">Active Security Channel 4</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Dashboard -->
+        <main class="dashboard">
+            <header class="topbar">
+                <div class="title-area">
+                    <h2 id="view-title" data-i18n="titleOps">Stadium Operations Intelligence Center</h2>
+                    <p id="view-subtitle" data-i18n="subtitleOps">Real-time incident response & decision support console</p>
+                </div>
+                <div class="timer">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    <span data-i18n="matchday">MATCHDAY 1 - KICKOFF IN 2H 20M</span>
+                </div>
+            </header>
+
+            <!-- STAFF OPS VIEW -->
+            <section id="view-stadium-ops" class="dashboard-grid">
+                
+                <!-- Left Column: Ops Incident Console -->
+                <div class="panel ops-console" id="ops-console">
+                    <div class="panel-header">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                        <div class="header-text">
+                            <h3 data-i18n="opsConsole">Ops Incident Console</h3>
+                            <span data-i18n="activeAlerts">3 active alerts</span>
+                        </div>
+                    </div>
+                    <div class="incident-list" id="incident-list">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- Center Column: Live Crowd Density Overlay -->
+                <div class="panel density-overlay" id="density-overlay">
+                    <div class="panel-header">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00f2fe" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+                        <div class="header-text">
+                            <h3 data-i18n="liveOverlay">Live Crowd Density Overlay</h3>
+                            <span data-i18n="thermalMapping">Real-time thermal sensor array mapping</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stadium-graphic-container">
+                        <!-- CSS Stadium Graphic -->
+                        <div class="stadium">
+                            <div class="gate label-a">GATE A</div>
+                            <div class="gate label-b">GATE B</div>
+                            <div class="gate label-c">GATE C</div>
+                            <div class="gate label-d">GATE D</div>
+                            <div class="ring outer"></div>
+                            <svg class="segments" viewBox="0 0 200 200">
+                                <path d="M100,10 A90,90 0 0,0 10,100 L30,100 A70,70 0 0,1 100,30 Z" fill="#10b981" />
+                                <path d="M100,10 A90,90 0 0,1 190,100 L170,100 A70,70 0 0,0 100,30 Z" fill="#f59e0b" />
+                                <path d="M190,100 A90,90 0 0,1 100,190 L100,170 A70,70 0 0,0 170,100 Z" fill="#ef4444" />
+                                <path d="M10,100 A90,90 0 0,0 100,190 L100,170 A70,70 0 0,1 30,100 Z" fill="#10b981" />
+                            </svg>
+                            <div class="ring inner"></div>
+                            <div class="pitch">
+                                <div class="center-circle"></div>
+                                <div class="half-line"></div>
+                                <div class="penalty-box left"></div>
+                                <div class="penalty-box right"></div>
+                            </div>
+                            <div class="indicator pulse-red" style="top: 15%; right: 25%;"></div>
+                            <div class="indicator pulse-green" style="bottom: 25%; left: 15%;"></div>
+                        </div>
+
+                        <!-- Legend -->
+                        <div class="legend">
+                            <div class="legend-item"><span class="color-box" style="background:#10b981"></span> <span data-i18n="clearZone">Clear (<30%)</span></div>
+                            <div class="legend-item"><span class="color-box" style="background:#f59e0b"></span> <span data-i18n="crowdedZone">Crowded (60%)</span></div>
+                            <div class="legend-item"><span class="color-box" style="background:#ef4444"></span> <span data-i18n="bottleneckZone">Bottleneck (95%)</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: AI Advisor & Staff Tracker -->
+                <div class="right-column" id="staff-tracker">
+                    <!-- GenAI Dispatch Advisor -->
+                    <div class="panel genai-advisor">
+                        <div class="panel-header">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00f2fe" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                            <div class="header-text">
+                                <h3 data-i18n="aiAdvisor">GenAI Dispatch Advisor</h3>
+                                <span data-i18n="autoGenerator">Automated response generator</span>
+                            </div>
+                        </div>
+                        <div class="advisor-content" id="advisor-content">
+                            <div class="empty-state">
+                                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"><path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"></path><path d="M13 13l6 6"></path></svg>
+                                <p data-i18n="selectIncident">Select an active incident from the list to analyze with Generative AI support recommendations.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Staff & Volunteers Tracker -->
+                    <div class="panel staff-tracker">
+                        <div class="panel-header">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+                            <div class="header-text">
+                                <h3 data-i18n="staffTracker">Staff & Volunteers</h3>
+                                <span data-i18n="liveDeployment">Live deployment tracker</span>
+                            </div>
+                        </div>
+                        <div class="tracker-grid">
+                            <div class="tracker-card">
+                                <h4>Volunteer Unit 1 (Ingress)</h4>
+                                <span class="status standby">standby</span>
+                                <p>Job: None</p>
+                            </div>
+                            <div class="tracker-card">
+                                <h4>Volunteer Unit 2 (Wayfinding)</h4>
+                                <span class="status active">active</span>
+                                <p>Job: Marshalling Gate A</p>
+                            </div>
+                            <div class="tracker-card">
+                                <h4>Medical Team 2</h4>
+                                <span class="status standby">standby</span>
+                                <p>Job: First Aid South Hub</p>
+                            </div>
+                            <div class="tracker-card">
+                                <h4>Cleanup Crew 1</h4>
+                                <span class="status standby">standby</span>
+                                <p>Job: Concourse Central</p>
+                            </div>
+                            <div class="tracker-card">
+                                <h4>Sustainability Team 1</h4>
+                                <span class="status active">active</span>
+                                <p>Job: EcoHub B Operations</p>
+                            </div>
+                            <div class="tracker-card">
+                                <h4>Volunteer Unit 3 (Multilingual)</h4>
+                                <span class="status busy">busy</span>
+                                <p>Job: Translating Gate D</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- FAN COMPANION VIEW (Hidden by default) -->
+            <section id="view-fan-companion" style="display: none;">
+                <div class="fan-dashboard-grid">
+                    <div class="panel chat-panel">
+                        <div class="panel-header">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00f2fe" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                            <div class="header-text">
+                                <h3 data-i18n="chatbotTitle">Fan Assistant Chatbot</h3>
+                                <span data-i18n="chatbotSubtitle">Ask about navigation, food, or rules</span>
+                            </div>
+                        </div>
+                        <div class="chat-window" id="chat-window">
+                            <div class="message ai-message">
+                                <p data-i18n="chatbotGreeting">Welcome to the FIFA World Cup 2026! I am your GenAI assistant. How can I help you today?</p>
+                            </div>
+                        </div>
+                        <div class="chat-suggestions">
+                            <button class="chat-pill" data-query="Where is the nearest restroom?" data-i18n="pillRestroom">🚻 Nearest Restroom</button>
+                            <button class="chat-pill" data-query="How do I get to sector 105?" data-i18n="pillNav">📍 Navigate to Seat</button>
+                            <button class="chat-pill" data-query="What food options are nearby?" data-i18n="pillFood">🍔 Food Options</button>
+                        </div>
+                        <form id="chat-form" class="chat-form">
+                            <input type="text" id="chat-input" placeholder="Type your message here..." data-i18n-placeholder="chatPlaceholder" required autocomplete="off">
+                            <button type="submit" aria-label="Send">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/security.js"></script>
+    <script src="js/genai-engine.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
