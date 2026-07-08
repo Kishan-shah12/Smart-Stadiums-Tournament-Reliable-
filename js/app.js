@@ -427,6 +427,35 @@ class MainApp {
             e.target.classList.toggle('active');
             e.target.setAttribute('aria-pressed', isActive);
         });
+
+        // Sidebar Navigation Logic
+        if (this.opsNav) {
+            const navItems = this.opsNav.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    
+                    // Update active state
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    item.classList.add('active');
+                    
+                    // Find target panel
+                    const targetId = item.getAttribute('href').substring(1);
+                    const targetPanel = document.getElementById(targetId);
+                    
+                    if (targetPanel) {
+                        // Scroll column to panel if needed (smooth scroll)
+                        targetPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                        
+                        // Add pulse animation
+                        targetPanel.classList.remove('highlight-pulse');
+                        // Trigger reflow to restart animation
+                        void targetPanel.offsetWidth; 
+                        targetPanel.classList.add('highlight-pulse');
+                    }
+                });
+            });
+        }
     }
 
     /**

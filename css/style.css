@@ -248,6 +248,16 @@ body {
     border-bottom: 1px solid var(--border-color);
     background: rgba(0,0,0,0.2);
 }
+
+@keyframes highlightPulse {
+    0% { box-shadow: 0 0 0 0 rgba(0, 242, 254, 0.7); border-color: var(--accent-cyan); }
+    70% { box-shadow: 0 0 0 15px rgba(0, 242, 254, 0); border-color: var(--accent-cyan); }
+    100% { box-shadow: 0 0 0 0 rgba(0, 242, 254, 0); border-color: var(--border-color); }
+}
+
+.highlight-pulse {
+    animation: highlightPulse 1.5s ease-out;
+}
 .header-text h3 {
     font-size: 0.875rem;
     font-weight: 600;
