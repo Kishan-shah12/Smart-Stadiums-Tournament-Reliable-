@@ -157,7 +157,7 @@ class DashboardController {
      */
     renderIncidents() {
         const incidents = window.GenAIEngine.getIncidents();
-        this.incidentList.innerHTML = '';
+        this.incidentList.textContent = '';
         
         incidents.forEach(inc => {
             const card = document.createElement('div');
@@ -218,7 +218,7 @@ class DashboardController {
         document.querySelectorAll('.incident-card').forEach(c => c.classList.remove('selected'));
         cardElement.classList.add('selected');
         
-        this.advisorContent.innerHTML = '';
+        this.advisorContent.textContent = '';
         const loadingDiv = document.createElement('div');
         loadingDiv.className = 'empty-state';
         loadingDiv.style.animation = 'pulse 1.5s infinite';
@@ -230,7 +230,7 @@ class DashboardController {
         
         try {
             const response = await window.GenAIEngine.getAdvisorRecommendation(incidentId);
-            this.advisorContent.innerHTML = '';
+            this.advisorContent.textContent = '';
             
             const aiResponseDiv = document.createElement('div');
             aiResponseDiv.className = 'ai-response';
@@ -253,7 +253,7 @@ class DashboardController {
             this.advisorContent.appendChild(aiResponseDiv);
         } catch (e) {
             console.error(e);
-            this.advisorContent.innerHTML = '';
+            this.advisorContent.textContent = '';
             const errorP = document.createElement('p');
             errorP.style.color = 'var(--accent-red)';
             errorP.textContent = 'Error analyzing incident.';
