@@ -163,20 +163,38 @@ class DashboardController {
             const card = document.createElement('div');
             card.className = `incident-card ${inc.severity}`;
             card.dataset.id = inc.id;
-            
-            card.innerHTML = `
-                <div class="incident-card-top">
-                    <h4>${inc.title}</h4>
-                    <span class="badge ${inc.severity}">${inc.severity.toUpperCase()}</span>
-                </div>
-                <p>${inc.description}</p>
-                <div class="incident-card-bottom">
-                    <div class="location ${inc.severity}">
-                        <div class="dot"></div> ${inc.location}
-                    </div>
-                    <div class="time">${inc.time}</div>
-                </div>
-            `;
+
+            const topDiv = document.createElement('div');
+            topDiv.className = 'incident-card-top';
+            const h4 = document.createElement('h4');
+            h4.textContent = inc.title;
+            const badge = document.createElement('span');
+            badge.className = `badge ${inc.severity}`;
+            badge.textContent = inc.severity.toUpperCase();
+            topDiv.appendChild(h4);
+            topDiv.appendChild(badge);
+
+            const p = document.createElement('p');
+            p.textContent = inc.description;
+
+            const bottomDiv = document.createElement('div');
+            bottomDiv.className = 'incident-card-bottom';
+            const locDiv = document.createElement('div');
+            locDiv.className = `location ${inc.severity}`;
+            const dot = document.createElement('div');
+            dot.className = 'dot';
+            locDiv.appendChild(dot);
+            locDiv.appendChild(document.createTextNode(' ' + inc.location));
+            const timeDiv = document.createElement('div');
+            timeDiv.className = 'time';
+            timeDiv.textContent = inc.time;
+            bottomDiv.appendChild(locDiv);
+            bottomDiv.appendChild(timeDiv);
+
+            card.appendChild(topDiv);
+            card.appendChild(p);
+            card.appendChild(bottomDiv);
+
             // Must support keyboard interaction for accessibility
             card.tabIndex = 0;
             card.addEventListener('click', () => this.handleIncidentClick(card, inc.id));
@@ -196,29 +214,46 @@ class DashboardController {
         document.querySelectorAll('.incident-card').forEach(c => c.classList.remove('selected'));
         cardElement.classList.add('selected');
         
-        this.advisorContent.innerHTML = `
-            <div class="empty-state" style="animation: pulse 1.5s infinite">
-                <p style="color: var(--accent-cyan)">Analyzing incident data...</p>
-            </div>
-        `;
+        this.advisorContent.innerHTML = '';
+        const loadingDiv = document.createElement('div');
+        loadingDiv.className = 'empty-state';
+        loadingDiv.style.animation = 'pulse 1.5s infinite';
+        const loadingP = document.createElement('p');
+        loadingP.style.color = 'var(--accent-cyan)';
+        loadingP.textContent = 'Analyzing incident data...';
+        loadingDiv.appendChild(loadingP);
+        this.advisorContent.appendChild(loadingDiv);
         
         try {
             const response = await window.GenAIEngine.getAdvisorRecommendation(incidentId);
-            const actionButtons = response.actions.map(action => 
-                `<button class="btn-dispatch">${action}</button>`
-            ).join('');
+            this.advisorContent.innerHTML = '';
             
-            this.advisorContent.innerHTML = `
-                <div class="ai-response">
-                    <p>${response.text}</p>
-                    <div class="ai-actions">
-                        ${actionButtons}
-                    </div>
-                </div>
-            `;
+            const aiResponseDiv = document.createElement('div');
+            aiResponseDiv.className = 'ai-response';
+            
+            const textP = document.createElement('p');
+            textP.textContent = response.text;
+            
+            const actionsDiv = document.createElement('div');
+            actionsDiv.className = 'ai-actions';
+            
+            response.actions.forEach(action => {
+                const btn = document.createElement('button');
+                btn.className = 'btn-dispatch';
+                btn.textContent = action;
+                actionsDiv.appendChild(btn);
+            });
+            
+            aiResponseDiv.appendChild(textP);
+            aiResponseDiv.appendChild(actionsDiv);
+            this.advisorContent.appendChild(aiResponseDiv);
         } catch (e) {
             console.error(e);
-            this.advisorContent.innerHTML = `<p style="color: var(--accent-red)">Error analyzing incident.</p>`;
+            this.advisorContent.innerHTML = '';
+            const errorP = document.createElement('p');
+            errorP.style.color = 'var(--accent-red)';
+            errorP.textContent = 'Error analyzing incident.';
+            this.advisorContent.appendChild(errorP);
         }
     }
 }
@@ -300,7 +335,9 @@ class ChatbotController {
     appendChatMessage(text, sender) {
         const msgDiv = document.createElement('div');
         msgDiv.className = `message ${sender}-message`;
-        msgDiv.innerHTML = `<p>${text}</p>`;
+        const p = document.createElement('p');
+        p.textContent = text;
+        msgDiv.appendChild(p);
         this.chatWindow.appendChild(msgDiv);
         this.chatWindow.scrollTop = this.chatWindow.scrollHeight;
     }
@@ -310,7 +347,9 @@ class ChatbotController {
         const msgDiv = document.createElement('div');
         msgDiv.className = `message ai-message typing-indicator`;
         msgDiv.id = 'typing-indicator';
-        msgDiv.innerHTML = `<p>...</p>`;
+        const p = document.createElement('p');
+        p.textContent = '...';
+        msgDiv.appendChild(p);
         this.chatWindow.appendChild(msgDiv);
         this.chatWindow.scrollTop = this.chatWindow.scrollHeight;
     }

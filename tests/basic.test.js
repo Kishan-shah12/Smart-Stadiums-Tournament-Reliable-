@@ -1,6 +1,6 @@
 /**
  * Comprehensive Test Runner for Stadium Intelligence Center
- * Updated for ES6 Class Refactor.
+ * Zero-Dependency ES6 validation.
  */
 
 global.window = {};
@@ -20,7 +20,7 @@ const appScript = fs.readFileSync(path.join(__dirname, '../js/app.js'), 'utf8');
 eval(securityScript);
 eval(engineScript);
 
-// Extract Translations from app.js safely since it's wrapped in classes now
+// Extract Translations from app.js safely
 const translationsMatch = appScript.match(/const Translations = (\{[\s\S]*?\});\n\n\/\*\*/);
 let Translations = {};
 if (translationsMatch) {
@@ -55,7 +55,7 @@ function assertHasKeys(obj, keys, testName) {
 }
 
 async function runTests() {
-    console.log("--- Starting ES6 Refactored Tests ---\n");
+    console.log("--- Starting Zero-Dependency Tests ---\n");
 
     // 1. SECURITY TESTS
     console.log("-> Testing Security Module");
