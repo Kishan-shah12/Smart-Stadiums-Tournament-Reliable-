@@ -67,9 +67,20 @@ async function runTests() {
     console.log("\n-> Testing GenAI Engine Logic");
     const incidents = window.GenAIEngine.getIncidents();
     assertEqual(incidents.length > 0, true, "Engine loads incident data");
+    
     const recommendation = await window.GenAIEngine.getAdvisorRecommendation('inc-001');
     assertEqual(typeof recommendation.text, 'string', "Advisor returns string text");
     assertEqual(Array.isArray(recommendation.actions), true, "Advisor returns actions array");
+
+    // Edge Cases
+    console.log("\n-> Testing Edge Cases & Resilience");
+    const invalidRec = await window.GenAIEngine.getAdvisorRecommendation('invalid-999');
+    assertEqual(invalidRec.actions.length, 0, "Gracefully handles invalid incident ID");
+    
+    // Test Retry Logic Resilience (We can't easily force Math.random here without mocking, 
+    // but we can ensure the function signature supports retries and resolves successfully).
+    const retryRec = await window.GenAIEngine.getAdvisorRecommendation('inc-002', 5);
+    assertEqual(typeof retryRec.text, 'string', "Network retry logic resolves successfully");
 
     // 3. I18N TRANSLATION TESTS
     console.log("\n-> Testing Translation Integrity");

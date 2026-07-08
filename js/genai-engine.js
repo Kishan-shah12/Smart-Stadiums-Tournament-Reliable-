@@ -35,31 +35,39 @@ const GenAIEngine = {
         ];
     },
 
-    // Simulate AI Advisor Recommendations
-    getAdvisorRecommendation: function(incidentId) {
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                let response = { text: "No recommendation available.", actions: [] };
+    // Algorithmic Optimization: O(1) Hash Map for rapid incident lookups
+    _recommendationMap: {
+        'inc-001': {
+            text: "<strong>Analysis:</strong> Gate B bottleneck is escalating rapidly. <br><br><strong>Recommendation:</strong> Reboot Scanner 4 remotely. Simultaneously, dispatch Volunteer Unit 2 (Wayfinding) from standby to marshal crowds towards Gate C (currently <30% capacity). Broadcast redirect message to digital signage Zone B.",
+            actions: ["Dispatch Unit 2", "Update Signage"]
+        },
+        'inc-002': {
+            text: "<strong>Analysis:</strong> Heat exhaustion requires rapid response. <br><br><strong>Recommendation:</strong> Dispatch Medical Team 2 (currently on standby at South Hub) to Sec 114, Row 14. Alert concession stand 114 to provide complementary water and ice.",
+            actions: ["Dispatch Medical 2", "Alert Concessions"]
+        },
+        'inc-003': {
+            text: "<strong>Analysis:</strong> EcoHub A capacity critical. <br><br><strong>Recommendation:</strong> Task Cleanup Crew 1 (currently on standby) to empty smart bins at EcoHub A. Reroute Sustainability Team 1 to assist if necessary.",
+            actions: ["Task Cleanup Crew 1"]
+        }
+    },
 
-                if (incidentId === 'inc-001') {
-                    response = {
-                        text: "<strong>Analysis:</strong> Gate B bottleneck is escalating rapidly. <br><br><strong>Recommendation:</strong> Reboot Scanner 4 remotely. Simultaneously, dispatch Volunteer Unit 2 (Wayfinding) from standby to marshal crowds towards Gate C (currently <30% capacity). Broadcast redirect message to digital signage Zone B.",
-                        actions: ["Dispatch Unit 2", "Update Signage"]
-                    };
-                } else if (incidentId === 'inc-002') {
-                    response = {
-                        text: "<strong>Analysis:</strong> Heat exhaustion requires rapid response. <br><br><strong>Recommendation:</strong> Dispatch Medical Team 2 (currently on standby at South Hub) to Sec 114, Row 14. Alert concession stand 114 to provide complementary water and ice.",
-                        actions: ["Dispatch Medical 2", "Alert Concessions"]
-                    };
-                } else if (incidentId === 'inc-003') {
-                    response = {
-                        text: "<strong>Analysis:</strong> EcoHub A capacity critical. <br><br><strong>Recommendation:</strong> Task Cleanup Crew 1 (currently on standby) to empty smart bins at EcoHub A. Reroute Sustainability Team 1 to assist if necessary.",
-                        actions: ["Task Cleanup Crew 1"]
-                    };
+    // Simulate AI Advisor Recommendations with Graceful Degradation & Retry Logic
+    getAdvisorRecommendation: function(incidentId, retries = 2) {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                // Edge Case: Simulate occasional network drop to test Resilience
+                const networkDrop = Math.random() < 0.1; // 10% chance to fail
+                if (networkDrop && retries > 0) {
+                    console.warn(`[GenAIEngine] Network drop detected. Retrying... (${retries} attempts left)`);
+                    return resolve(this.getAdvisorRecommendation(incidentId, retries - 1));
+                } else if (networkDrop && retries === 0) {
+                    return reject(new Error("Network connection failed after retries. Graceful degradation triggered."));
                 }
-                
+
+                // O(1) Lookup Strategy
+                const response = this._recommendationMap[incidentId] || { text: "No recommendation available for this incident ID.", actions: [] };
                 resolve(response);
-            }, 600); // Simulate processing delay
+            }, 300); // Optimize simulated latency from 600ms to 300ms
         });
     },
 

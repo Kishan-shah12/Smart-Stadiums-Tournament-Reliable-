@@ -206,11 +206,15 @@ class DashboardController {
     }
 
     /**
-     * Triggers the GenAI advisor for a specific incident.
+     * Triggers the GenAI advisor for a specific incident with idempotency lock.
      * @param {HTMLElement} cardElement - The clicked DOM node.
      * @param {string} incidentId - The ID of the incident.
      */
     async handleIncidentClick(cardElement, incidentId) {
+        // Idempotency: Prevent concurrent API calls if already processing
+        if (this.isProcessing) return;
+        this.isProcessing = true;
+
         document.querySelectorAll('.incident-card').forEach(c => c.classList.remove('selected'));
         cardElement.classList.add('selected');
         
@@ -254,6 +258,8 @@ class DashboardController {
             errorP.style.color = 'var(--accent-red)';
             errorP.textContent = 'Error analyzing incident.';
             this.advisorContent.appendChild(errorP);
+        } finally {
+            this.isProcessing = false;
         }
     }
 }
